@@ -28,10 +28,11 @@ class Exersice
   def calories
     litersPerMin = (average_hr.to_i * 1.0 / @max_hr.to_i ) * @vo2_max.to_i * @weight.to_i / 1000.0
     minutes = to_minutes @length
-    (litersPerMin * 3.8 * minutes).ceil # 3.8 tweaked from 5
+    (litersPerMin * 3.8 * minutes).ceil 
   end
 
   def summary
+    "Exersice Summary: \n" + 
     "Date: #{@date}\n" + 
     "Lenght: #{@length}\n" + 
     "Limits: [#{@limits[0]}, #{@limits[1]}]\n" +
@@ -43,7 +44,6 @@ class Exersice
     "Calories (kcal): #{calories}\n" + 
     "HR Data: \n[#{@hr_data.join(",")}]"
   end
-
 end
 
 class ExersiceBuilder
@@ -64,5 +64,14 @@ class ExersiceBuilder
   end
 end
 
-exersice = ExersiceBuilder.build(File.open("test.hrm", "r").read)
-puts exersice.summary
+if $0 == __FILE__
+  if ARGV.length < 1
+    puts "Usage: ruby parser [path to hrm file]"
+    Process.exit
+  end
+  file = ARGV[0]
+
+  puts "HRM File: #{file}"
+  exersice = ExersiceBuilder.build(File.open(file, "r").read)
+  puts exersice.summary
+end
