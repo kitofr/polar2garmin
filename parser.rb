@@ -28,7 +28,7 @@ class Exersice
   def calories
     litersPerMin = (average_hr.to_i * 1.0 / @max_hr.to_i ) * @vo2_max.to_i * @weight.to_i / 1000.0
     minutes = to_minutes @length
-    (litersPerMin * 5 * minutes).ceil
+    (litersPerMin * 3.8 * minutes).ceil # 3.8 tweaked from 5
   end
 
   def summary
