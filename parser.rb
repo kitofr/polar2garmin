@@ -1,7 +1,16 @@
 require 'date'
 require 'fileutils'
 
+module TimeConverter
+  def to_minutes colon_separated_string
+    tmp = colon_separated_string.split(":")
+    tmp[0].to_i * 60 + tmp[1].to_i + tmp[2].to_i / 60.0
+   end
+end
+
 class Exersice
+  include TimeConverter
+
   attr_accessor :max_hr, :length, :resting_hr, :vo2_max, :weight, :hr_data
 
   def date(day, time)
@@ -16,6 +25,12 @@ class Exersice
     @hr_data.inject {|x,y| x.to_i + y.to_i} / @hr_data.size
   end
 
+  def calories
+    litersPerMin = (average_hr.to_i * 1.0 / @max_hr.to_i ) * @vo2_max.to_i * @weight.to_i / 1000.0
+    minutes = to_minutes @length
+    (litersPerMin * 5 * minutes).ceil
+  end
+
   def summary
     "Date: #{@date}\n" + 
     "Lenght: #{@length}\n" + 
@@ -24,9 +39,11 @@ class Exersice
     "Resting Heart Rate: #{@resting_hr}\n" +
     "VO2 Max: #{@vo2_max}\n" +
     "Weight: #{@weight}\n" + 
-    "Average Heart Rate #{average_hr}\n" + 
+    "Average Heart Rate: #{average_hr}\n" + 
+    "Calories (kcal): #{calories}\n" + 
     "HR Data: \n[#{@hr_data.join(",")}]"
   end
+
 end
 
 class ExersiceBuilder
