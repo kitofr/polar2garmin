@@ -14,3 +14,32 @@ That's all for now.
 
 
 Kristoffer Roupe, Stockholm - 2010-04-26 
+
+
+ToDo:
+Handle GPX files and insert hr data like this:
+
+<trkpt lat="xx.750916" lon="yy.182019"><ele>243.83</ele>
+    <time>2008-02-22T16:01:15Z</time>
+    <extensions>
+        <gpxtpx:TrackPointExtension>
+        <gpxtpx:atemp>26.6</gpxtpx:atemp>
+        <gpxtpx:hr>109</gpxtpx:hr>
+        <gpxtpx:cad>47</gpxtpx:cad>
+        </gpxtpx:TrackPointExtension>
+    </extensions>
+</trkpt>
+
+<trkpt lat="xx.751120" lon="yy.181503">
+    <ele>242.39</ele>
+    <time>2008-02-16:01:25Z</time>
+    <extensions>
+        <gpxtpx:TrackPointExtension>
+        <gpxtpx:atemp>26.6</gpxtpx:atemp>
+        <gpxtpx:hr>112</gpxtpx:hr>
+        <gpxtpx:cad>47</gpxtpx:cad>
+        </gpxtpx:TrackPointExtension>
+    </extensions>
+</trkpt>
+
+ * Minor transform issue commin up, seems like the Colorado Unit saves every 4:th sec and Polar Watch every 5:th. 
