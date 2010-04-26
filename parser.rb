@@ -31,6 +31,7 @@ end
 
 class ExersiceBuilder
   def self.build(file)
+     throw "Error: Unsupported SMode (Not yet implemented)" unless file[/SMode=000000001/,0]
 
     exersice = Exersice.new
     exersice.date(file[/Date=(.+)$/i, 1], file[/StartTime=(.+)$/i, 1])
@@ -41,7 +42,6 @@ class ExersiceBuilder
     exersice.vo2_max = file[/VO2max=([\d]+)$/i, 1]
     exersice.weight = file[/Weight=([\d]+)$/i, 1]
 
-    #Not that this wont work if height data is present
     exersice.hr_data = file[file.index(/HRData\]/) + 8..file.size].split("\n")
     exersice
   end
