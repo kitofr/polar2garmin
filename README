@@ -17,7 +17,7 @@ Kristoffer Roupe, Stockholm - 2010-04-26
 
 
 ToDo:
-Handle GPX files and insert hr data like this:
+- Handle GPX files and insert hr data like this:
 
 <trkpt lat="xx.750916" lon="yy.182019"><ele>243.83</ele>
     <time>2008-02-22T16:01:15Z</time>
@@ -42,4 +42,5 @@ Handle GPX files and insert hr data like this:
     </extensions>
 </trkpt>
 
- * Minor transform issue commin up, seems like the Colorado Unit saves every 4:th sec and Polar Watch every 5:th. 
+- Minor transform issue commin up, seems like the Colorado Unit saves every 4:th sec and Polar Watch every 5:th. 
+- Output Exersice HR min/max value
