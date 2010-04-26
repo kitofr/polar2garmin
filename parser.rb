@@ -12,6 +12,10 @@ class Exersice
     @limits = [upper,lower]
   end
 
+  def average_hr
+    @hr_data.inject {|x,y| x.to_i + y.to_i} / @hr_data.size
+  end
+
   def summary
     "Date: #{@date}\n" + 
     "Lenght: #{@length}\n" + 
@@ -20,6 +24,7 @@ class Exersice
     "Resting Heart Rate: #{@resting_hr}\n" +
     "VO2 Max: #{@vo2_max}\n" +
     "Weight: #{@weight}\n" + 
+    "Average Heart Rate #{average_hr}\n" + 
     "HR Data: \n[#{@hr_data.join(",")}]"
   end
 end
