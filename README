@@ -1,0 +1,16 @@
+Polar 2 Garmin
+
+Disclaimer/License etc:
+Ok, not going to write any disclaimer or such. If you use this... well, then you're
+on your own :) Happy? Ok, carry on.
+
+Aim:
+The aim for this project is to read Heart Rate data from my AXN500 Polar watch
+provided from the .HRM files that I download from it, and insert that data
+into GPX files that I download from my Garmin Colorado 300 so that when I upload
+those to http://connect.garmin.com they will properly show the HR data collected :)
+
+That's all for now.
+
+
+Kristoffer Roupé, Stockholm - 2010-04-26 
