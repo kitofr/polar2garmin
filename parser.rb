@@ -8,6 +8,15 @@ module TimeConverter
    end
 end
 
+class Limit
+  def initialize(upper, lower)
+    @upper, @lower = upper, lower
+  end
+  def to_s
+    "[#{@upper}, #{@lower}]"
+  end
+end
+
 class Exersice
   include TimeConverter
 
@@ -18,7 +27,7 @@ class Exersice
   end
 
   def limits(upper, lower)
-    @limits = [upper,lower]
+    @limits = Limit.new(upper, lower)
   end
 
   def average_hr
@@ -35,7 +44,7 @@ class Exersice
     "Exersice Summary: \n" + 
     "Date: #{@date}\n" + 
     "Lenght: #{@length}\n" + 
-    "Limits: [#{@limits[0]}, #{@limits[1]}]\n" +
+    "Limits: #{@limits}\n" +
     "Max Heart Rate: #{@max_hr}\n" + 
     "Resting Heart Rate: #{@resting_hr}\n" +
     "VO2 Max: #{@vo2_max}\n" +
