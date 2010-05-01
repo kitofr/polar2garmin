@@ -67,13 +67,17 @@ class ExersiceBuilder
     exersice.weight = file[/Weight=([\d]+)$/i, 1]
 
     smode = file[/SMode=(.+)$/i,1]
+    
     if smode == "000000001"
       exersice.hr_data = file[file.index(/HRData\]/) + 8..file.size].split("\n")
-    else
+    elsif smode == "001000100"
       exersice.hr_data = file[file.index(/HRData\]/) + 8..file.size].split("\n").collect do |line|
 	line.split(" ")[0]
       end
+    else
+      throw "Unsupported SMode type"
     end
+
     exersice
   end
 end
