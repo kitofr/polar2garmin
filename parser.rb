@@ -66,20 +66,25 @@ class ExersiceBuilder
     exersice.vo2_max = file[/VO2max=([\d]+)$/i, 1]
     exersice.weight = file[/Weight=([\d]+)$/i, 1]
 
+
+    exersice.hr_data = extract_hr_data(file)
+
+    exersice
+  end
+
+  def self.extract_hr_data(file)
     smode = file[/SMode=(.+)$/i,1]
-    
     if smode == "000000001"
-      exersice.hr_data = file[file.index(/HRData\]/) + 8..file.size].split("\n")
+      file[file.index(/HRData\]/) + 8..file.size].split("\n")
     elsif smode == "001000100"
-      exersice.hr_data = file[file.index(/HRData\]/) + 8..file.size].split("\n").collect do |line|
+      file[file.index(/HRData\]/) + 8..file.size].split("\n").collect do |line|
 	line.split(" ")[0]
       end
     else
       throw "Unsupported SMode type"
     end
-
-    exersice
   end
+
 end
 
 Process.exit unless $0 == __FILE__
