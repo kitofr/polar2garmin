@@ -5,7 +5,7 @@ module TimeConverter
   def to_minutes colon_separated_string
     tmp = colon_separated_string.split(":")
     tmp[0].to_i * 60 + tmp[1].to_i + tmp[2].to_i / 60.0
-   end
+  end
 end
 
 class Limit
@@ -42,7 +42,7 @@ class Exersice
 
   def summary
     "Exersice Summary: \n" + 
-    "Date: #{@date}\n" + 
+      "Date: #{@date}\n" + 
     "Lenght: #{@length}\n" + 
     "Limits: #{@limits}\n" +
     "Max Heart Rate: #{@max_hr}\n" + 
@@ -57,8 +57,6 @@ end
 
 class ExersiceBuilder
   def self.build(file)
-     throw "Error: Unsupported SMode (Not yet implemented)" unless file[/SMode=000000001/,0]
-
     exersice = Exersice.new
     exersice.date(file[/Date=(.+)$/i, 1], file[/StartTime=(.+)$/i, 1])
     exersice.length = file[/Length=(.+)$/i, 1]
@@ -68,7 +66,14 @@ class ExersiceBuilder
     exersice.vo2_max = file[/VO2max=([\d]+)$/i, 1]
     exersice.weight = file[/Weight=([\d]+)$/i, 1]
 
-    exersice.hr_data = file[file.index(/HRData\]/) + 8..file.size].split("\n")
+    smode = file[/SMode=(.+)$/i,1]
+    if smode == "000000001"
+      exersice.hr_data = file[file.index(/HRData\]/) + 8..file.size].split("\n")
+    else
+      exersice.hr_data = file[file.index(/HRData\]/) + 8..file.size].split("\n").collect do |line|
+	line.split(" ")[0]
+      end
+    end
     exersice
   end
 end
