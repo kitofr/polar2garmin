@@ -56,35 +56,31 @@ class Exersice
 end
 
 class ExersiceBuilder
-  def self.build(file)
+  def self.build(hrm_data)
     exersice = Exersice.new
-    exersice.date(file[/Date=(.+)$/i, 1], file[/StartTime=(.+)$/i, 1])
-    exersice.length = file[/Length=(.+)$/i, 1]
-    exersice.limits(file[/Upper1=(.+)$/i, 1], file[/Lower1=(.+)$/i, 1])
-    exersice.max_hr = file[/MaxHR=([\d]+)$/i, 1]
-    exersice.resting_hr = file[/RestHR=([\d]+)$/i, 1]
-    exersice.vo2_max = file[/VO2max=([\d]+)$/i, 1]
-    exersice.weight = file[/Weight=([\d]+)$/i, 1]
-
-
-    exersice.hr_data = extract_hr_data(file)
-
+    exersice.date(hrm_data[/Date=(.+)$/i, 1], hrm_data[/StartTime=(.+)$/i, 1])
+    exersice.length = hrm_data[/Length=(.+)$/i, 1]
+    exersice.limits(hrm_data[/Upper1=(.+)$/i, 1], hrm_data[/Lower1=(.+)$/i, 1])
+    exersice.max_hr = hrm_data[/MaxHR=([\d]+)$/i, 1]
+    exersice.resting_hr = hrm_data[/RestHR=([\d]+)$/i, 1]
+    exersice.vo2_max = hrm_data[/VO2max=([\d]+)$/i, 1]
+    exersice.weight = hrm_data[/Weight=([\d]+)$/i, 1]
+    exersice.hr_data = extract_hr_data(hrm_data)
     exersice
   end
 
-  def self.extract_hr_data(file)
-    smode = file[/SMode=(.+)$/i,1]
+  def self.extract_hr_data(hrm_data)
+    smode = hrm_data[/SMode=(.+)$/i,1]
     if smode == "000000001"
-      file[file.index(/HRData\]/) + 8..file.size].split("\n")
+      hrm_data[hrm_data.index(/HRData\]/) + 8..hrm_data.size].split("\n")
     elsif smode == "001000100"
-      file[file.index(/HRData\]/) + 8..file.size].split("\n").collect do |line|
+      hrm_data[hrm_data.index(/HRData\]/) + 8..hrm_data.size].split("\n").collect do |line|
 	line.split(" ")[0]
       end
     else
       throw "Unsupported SMode type"
     end
   end
-
 end
 
 Process.exit unless $0 == __FILE__
