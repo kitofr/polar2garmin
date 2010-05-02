@@ -37,9 +37,15 @@ class Exersice
     (litersPerMin * 3.8 * minutes).ceil 
   end
 
+  def get_hr_at(time_stamp)
+    at = DateTime.parse(time_stamp)  
+    return @hr_data[0] if at > @date
+    return @hr_data[-1] if at < (@data + @length)
+  end
+
   def summary
     "Exersice Summary: \n" + 
-      "Date: #{@date}\n" + 
+    "Date: #{@date}\n" + 
     "Lenght: #{@length}\n" + 
     "Limits: #{@limits}\n" +
     "Max Heart Rate: #{@max_hr}\n" + 
