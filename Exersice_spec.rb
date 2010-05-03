@@ -17,6 +17,13 @@ describe "get hr data" do
   it "should give last hr point when request is after traning has ended" do
     @exersice.hr_data = [110, 111]
     @exersice.length = "00:00:01.0"
-    @exersice.get_hr_at("2010-01-01T12:00:05:0").should be == 111
+    @exersice.get_hr_at("2010-01-01T12:00:05Z").should be == 111
+  end
+  it "should be able to decide hr on intervall basis" do
+    @exersice.hr_data = [1,2,3]
+    @exersice.length = "00:00:10.0"
+    @exersice.get_hr_at("2010-01-01T12:00:00Z").should be == 1
+    @exersice.get_hr_at("2010-01-01T12:00:05Z").should be == 2
+    @exersice.get_hr_at("2010-01-01T12:00:10Z").should be == 3
   end
 end

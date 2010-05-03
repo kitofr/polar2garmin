@@ -25,7 +25,7 @@ class Exersice
   attr_accessor :max_hr, :length, :resting_hr, :vo2_max, :weight, :hr_data
 
   def date(day, time)
-    @date = Time.parse "#{day[0..3]}-#{day[4..5]}-#{day[6..7]} #{time}"
+    @date = Time.parse("#{day[0..3]}-#{day[4..5]}-#{day[6..7]}T#{time}Z").utc
   end
 
   def limits(upper, lower)
@@ -44,8 +44,10 @@ class Exersice
 
   def get_hr_at(time_stamp)
     at = Time.parse(time_stamp)  
-    return @hr_data[0] if at < @date
+    return @hr_data[0] if at <= @date
+#    puts "", "at:    #{at}", "start: #{@date}", "end:   #{(@date + to_seconds(@length))}"
     return @hr_data[-1] if at > (@date + to_seconds(@length))
+    return @hr_data[1]
   end
 
   def summary
