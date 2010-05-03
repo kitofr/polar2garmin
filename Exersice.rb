@@ -1,7 +1,12 @@
+require 'time'
+
 module TimeConverter
   def to_minutes colon_separated_string
+    to_seconds(colon_separated_string) / 60
+  end
+  def to_seconds colon_separated_string
     tmp = colon_separated_string.split(":")
-    tmp[0].to_i * 60 + tmp[1].to_i + tmp[2].to_i / 60.0
+    tmp[0].to_i * 60 * 60 + tmp[1].to_i * 60 + tmp[2][0..1].to_i
   end
 end
 
@@ -20,7 +25,7 @@ class Exersice
   attr_accessor :max_hr, :length, :resting_hr, :vo2_max, :weight, :hr_data
 
   def date(day, time)
-    @date = DateTime.parse "#{day[0..3]}-#{day[4..5]}-#{day[6..7]} #{time}"
+    @date = Time.parse "#{day[0..3]}-#{day[4..5]}-#{day[6..7]} #{time}"
   end
 
   def limits(upper, lower)
@@ -38,9 +43,9 @@ class Exersice
   end
 
   def get_hr_at(time_stamp)
-    at = DateTime.parse(time_stamp)  
-    return @hr_data[0] if at > @date
-    return @hr_data[-1] if at < (@data + @length)
+    at = Time.parse(time_stamp)  
+    return @hr_data[0] if at < @date
+    return @hr_data[-1] if at > (@date + to_seconds(@length))
   end
 
   def summary
