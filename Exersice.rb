@@ -22,7 +22,7 @@ end
 class Exersice
   include TimeConverter
 
-  attr_accessor :max_hr, :length, :resting_hr, :vo2_max, :weight, :hr_data
+  attr_accessor :max_hr, :length, :resting_hr, :vo2_max, :weight, :hr_data, :sample_intervall
 
   def date(day, time)
     @date = Time.parse("#{day[0..3]}-#{day[4..5]}-#{day[6..7]}T#{time}Z").utc
@@ -30,6 +30,10 @@ class Exersice
 
   def limits(upper, lower)
     @limits = Limit.new(upper, lower)
+  end
+
+  def sample_intervall=in_seconds
+    @sample_intervall = in_seconds
   end
 
   def average_hr
@@ -45,9 +49,11 @@ class Exersice
   def get_hr_at(time_stamp)
     at = Time.parse(time_stamp)  
     return @hr_data[0] if at <= @date
-#    puts "", "at:    #{at}", "start: #{@date}", "end:   #{(@date + to_seconds(@length))}"
     return @hr_data[-1] if at > (@date + to_seconds(@length))
-    return @hr_data[1]
+
+    seconds_in = at - @date
+    at_index = (seconds_in / @sample_intervall).floor
+    return @hr_data[at_index]
   end
 
   def summary
