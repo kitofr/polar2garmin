@@ -22,7 +22,7 @@ end
 class Exersice
   include TimeConverter
 
-  attr_accessor :max_hr, :length, :resting_hr, :vo2_max, :weight, :hr_data, :sample_intervall
+  attr_accessor :max_hr, :length, :resting_hr, :vo2_max, :weight, :hr_data, :sample_interval
 
   def date(day, time)
     @date = Time.parse("#{day[0..3]}-#{day[4..5]}-#{day[6..7]}T#{time}Z").utc
@@ -32,8 +32,8 @@ class Exersice
     @limits = Limit.new(upper, lower)
   end
 
-  def sample_intervall=in_seconds
-    @sample_intervall = in_seconds
+  def sample_interval=in_seconds
+    @sample_interval = in_seconds.to_i
   end
 
   def average_hr
@@ -46,13 +46,13 @@ class Exersice
     (litersPerMin * 3.8 * minutes).ceil 
   end
 
-  def get_hr_at(time_stamp)
+  def get_heart_rate_at(time_stamp)
     at = Time.parse(time_stamp)  
     return @hr_data[0] if at <= @date
     return @hr_data[-1] if at > (@date + to_seconds(@length))
 
     seconds_in = at - @date
-    at_index = (seconds_in / @sample_intervall).floor
+    at_index = (seconds_in / @sample_interval).floor
     return @hr_data[at_index]
   end
 
@@ -60,6 +60,7 @@ class Exersice
     "Exersice Summary: \n" + 
     "Date: #{@date}\n" + 
     "Lenght: #{@length}\n" + 
+    "Sample Interval: #{@sample_interval}\n" + 
     "Limits: #{@limits}\n" +
     "Max Heart Rate: #{@max_hr}\n" + 
     "Resting Heart Rate: #{@resting_hr}\n" +
@@ -76,6 +77,7 @@ class ExersiceBuilder
     exersice = Exersice.new
     exersice.date(hrm_data[/Date=(.+)$/i, 1], hrm_data[/StartTime=(.+)$/i, 1])
     exersice.length = hrm_data[/Length=(.+)$/i, 1]
+    exersice.sample_interval = hrm_data[/Interval=(.+)$/i, 1]
     exersice.limits(hrm_data[/Upper1=(.+)$/i, 1], hrm_data[/Lower1=(.+)$/i, 1])
     exersice.max_hr = hrm_data[/MaxHR=([\d]+)$/i, 1]
     exersice.resting_hr = hrm_data[/RestHR=([\d]+)$/i, 1]
