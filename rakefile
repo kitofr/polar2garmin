@@ -1,0 +1,12 @@
+require 'rubygems'
+require 'spec/rake/spectask'
+
+task :default => ['spec']
+
+desc "Run Spec Test"
+Spec::Rake::SpecTask.new do |t|
+   t.spec_opts = ["--colour", "--format", "specdoc"]
+   #t.rcov = true
+   t.rcov_opts = ['--exclude', 'spec']
+   t.spec_files = FileList['spec', '*_spec*.rb']
+end
