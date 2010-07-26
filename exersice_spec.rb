@@ -21,7 +21,7 @@ describe "get hr data" do
   end
   it "should be able to decide hr on intervall basis" do
     @exersice.hr_data = [1,2,3]
-    @exersice.sample_intervall = 5
+    @exersice.sample_interval = 5
     @exersice.length = "00:00:10.0"
     @exersice.get_heart_rate_at("2010-01-01T12:00:00Z").should be == 1
     @exersice.get_heart_rate_at("2010-01-01T12:00:01Z").should be == 1
