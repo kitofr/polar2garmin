@@ -1,0 +1,46 @@
+<html>
+<head>
+  <script type="text/javascript" src="js/dygraph-combined.js"></script>
+  <style type="text/css">
+    body 
+    { 
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+<div id="graphdiv"></div>
+<script type="text/javascript">
+  g = new Dygraph(
+
+    // containing div
+    document.getElementById("graphdiv"),
+
+    // CSV or path to a CSV file.
+    'Time,Heart Rate,Altitude\n' + 
+'Thu Jul 29 00:00:00 +0200 2010,110, 102\n' + 
+'Thu Jul 29 00:00:04 +0200 2010,110, 103\n' + 
+'Thu Jul 29 00:00:08 +0200 2010,120, 109\n' + 
+'Thu Jul 29 00:00:12 +0200 2010,145, 143\n' + 
+'Thu Jul 29 00:00:16 +0200 2010,160, 150\n' + 
+'Thu Jul 29 00:00:20 +0200 2010,155, 136\n' + 
+'Thu Jul 29 00:00:24 +0200 2010,155, 138\n' + 
+'Thu Jul 29 00:00:28 +0200 2010,165, 146\n' + 
+'Thu Jul 29 00:00:32 +0200 2010,150, 138\n' + 
+'Thu Jul 29 00:00:36 +0200 2010,145, 137\n' + 
+'Thu Jul 29 00:00:40 +0200 2010,115, 107\n' + 
+'Thu Jul 29 00:00:44 +0200 2010,115, 106\n' + 
+'Thu Jul 29 00:00:48 +0200 2010,115, 108\n' ,
+    {
+      drawPoints: true,
+      pointSize: 4,
+      strokeWidth: 2,
+      highlightCircleSize: 6,
+      axisLabelFontSize: 10,
+      rightGap: 15,
+      fillGraph: true
+    }
+  );
+</script>
+</body>
+</html>
